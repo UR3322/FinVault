@@ -1,0 +1,35 @@
+.dashboard-hero {
+  background: linear-gradient(135deg, #f8faff 0%, #ede9fe 100%);
+  border-color: #c7d2fe;
+}
+
+.dash-stats-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dash-stat-chip {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 1rem;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+
+.dash-stat-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.dash-stat-val {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}

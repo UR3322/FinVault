@@ -1,0 +1,17 @@
+import api from './api'
+
+export const getAdminDashboard = () => api.get('/admin/dashboard').then(r => r.data)
+export const getAllUsers = (params) => api.get('/admin/users', { params }).then(r => r.data)
+export const getUserById = (id) => api.get(`/admin/users/${id}`).then(r => r.data)
+export const blockUser = (id) => api.patch(`/admin/users/${id}/block`).then(r => r.data)
+export const unblockUser = (id) => api.patch(`/admin/users/${id}/unblock`).then(r => r.data)
+export const getAllWallets = () => api.get('/admin/wallets').then(r => r.data)
+export const getAllTransactions = (params) => api.get('/admin/transactions', { params }).then(r => r.data)
+export const getFlaggedTransactions = () => api.get('/admin/transactions/flagged').then(r => r.data)
+export const getTransactionVolume = () => api.get('/admin/reports/transaction-volume').then(r => r.data)
+export const getSystemBalance = () => api.get('/admin/reports/system-balance').then(r => r.data)
+export const getCategories = () => api.get('/admin/categories').then(r => r.data)
+export const createCategory = (data) => api.post('/admin/categories', data).then(r => r.data)
+export const updateCategory = (id, data) => api.put(`/admin/categories/${id}`, data).then(r => r.data)
+export const disableCategory = (id) => api.patch(`/admin/categories/${id}/disable`).then(r => r.data)
+export const getAuditLogs = () => api.get('/admin/audit-logs').then(r => r.data)
