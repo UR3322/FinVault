@@ -23,7 +23,7 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://web-project-lime-alpha.vercel.app',
+  'http://localhost:3000',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
@@ -49,32 +49,6 @@ if (process.env.NODE_ENV !== 'production') {
 // health check
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'FinVault API is running', timestamp: new Date() });
-});
-
-// one-time seed route
-app.get('/api/seed', async (req, res) => {
-  try {
-    const User = require('./models/User');
-    const Wallet = require('./models/Wallet');
-    const Category = require('./models/Category');
-    const existing = await User.findOne({ email: 'admin@finvault.com' });
-    if (existing) return res.json({ message: 'Admin already exists' });
-    const admin = await User.create({
-      name: 'Admin',
-      email: 'admin@finvault.com',
-      password: 'admin123',
-      cnic: '0000000000000',
-      role: 'admin'
-    });
-    await Wallet.create({ userId: admin._id });
-    const cats = ['Food','Transport','Shopping','Health','Education','Entertainment','Utilities','Other'];
-    for (const name of cats) {
-      await Category.findOneAndUpdate({ name }, { name, isActive: true }, { upsert: true });
-    }
-    res.json({ message: 'Seeded successfully', email: 'admin@finvault.com', password: 'admin123' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 // routes

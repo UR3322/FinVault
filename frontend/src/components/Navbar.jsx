@@ -52,7 +52,7 @@ export default function Navbar() {
         <NotificationBell />
         <NavLink to={user.role === 'admin' ? '/admin/profile' : '/profile'} className="nav-user-btn">
           <FiUser size={16} />
-          <span>{user.name.split(' ')[0]}</span>
+          <span>{user?.name?.split(' ')[0] || 'Account'}</span>
           {user.role === 'admin' && <FiShield size={13} style={{ color: '#f59e0b' }} />}
         </NavLink>
         <button className="nav-logout-btn" onClick={handleLogout} title="Logout">

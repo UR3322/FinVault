@@ -5,7 +5,7 @@ import { useToast } from '../context/ToastContext'
 import { formatDate } from '../utils/formatDate'
 
 export default function Profile() {
-  const { user, login } = useAuth()
+  const { user, refreshUser } = useAuth()
   const toast = useToast()
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', phone: user?.phone || '' })
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmNew: '' })
@@ -18,6 +18,7 @@ export default function Profile() {
     setProfileLoading(true)
     try {
       await updateProfile(profileForm)
+      await refreshUser()
       toast.success('Profile updated')
     } catch (err) {
       toast.error(err.response?.data?.message || 'Update failed')

@@ -246,7 +246,15 @@ const getCategories = async (req, res, next) => {
 // PUT /api/admin/categories/:id
 const updateCategory = async (req, res, next) => {
   try {
-    const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    // whitelist updatable fields (never let callers overwrite createdBy, etc.)
+    const { name, type, description, isActive } = req.body;
+    const updates = {};
+    if (name !== undefined) updates.name = name;
+    if (type !== undefined) updates.type = type;
+    if (description !== undefined) updates.description = description;
+    if (isActive !== undefined) updates.isActive = isActive;
+
+    const category = await Category.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
     if (!category) return sendError(res, 'Category not found', 404);
     sendSuccess(res, { category }, 'Category updated');
   } catch (err) {

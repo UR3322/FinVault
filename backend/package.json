@@ -9,8 +9,11 @@
     "seed": "node src/utils/seedAdmin.js"
   },
   "keywords": ["fintech", "wallet", "mern"],
-  "author": "FinVault Team",
-  "license": "ISC",
+  "author": "Muhammad Usman",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",

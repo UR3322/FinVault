@@ -67,10 +67,12 @@ export default function AdminReports() {
     { name: 'Blocked', value: stats?.blockedUsers || 0 },
   ]
 
-  // transaction status breakdown
+  // transaction status breakdown — flagged is a subset of total,
+  // so the donut compares flagged vs clean (non-flagged)
+  const flaggedCount = stats?.flaggedTransactions || 0
   const txPieData = [
-    { name: 'Total', value: stats?.totalTransactions || 0 },
-    { name: 'Flagged', value: stats?.flaggedTransactions || 0 },
+    { name: 'Clean', value: Math.max((stats?.totalTransactions || 0) - flaggedCount, 0) },
+    { name: 'Flagged', value: flaggedCount },
   ]
 
   return (
@@ -184,7 +186,7 @@ export default function AdminReports() {
                     paddingAngle={3}
                     dataKey="value"
                   >
-                    <Cell fill="#4f46e5" />
+                    <Cell fill="#10b981" />
                     <Cell fill="#f59e0b" />
                   </Pie>
                   <Legend wrapperStyle={{ fontSize: '0.8rem' }} />
@@ -247,9 +249,12 @@ export default function AdminReports() {
                     <td style={{ fontWeight: 700, color: 'var(--secondary)' }}>{formatPKR(w.balance)}</td>
                     <td>{formatPKR(w.totalDeposits)}</td>
                     <td>
-                      <span className={`badge ${w.userId?.status === 'blocked' ? 'badge-danger' : 'badge-success'}`}>
-                        {w.userId?.status || 'active'}
+                      <span className={`badge ${w.status === 'frozen' ? 'badge-warning' : 'badge-success'}`}>
+                        {w.status || 'active'}
                       </span>
+                      {w.userId?.status === 'blocked' && (
+                        <span className="badge badge-danger" style={{ marginLeft: '0.35rem' }}>user blocked</span>
+                      )}
                     </td>
                   </tr>
                 ))}

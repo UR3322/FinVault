@@ -44,9 +44,12 @@ export default function AdminWallets() {
                     <td>{formatPKR(w.totalDeposits)}</td>
                     <td>{formatPKR(w.totalWithdrawals)}</td>
                     <td>
-                      <span className={`badge ${w.userId?.status === 'blocked' ? 'badge-danger' : 'badge-success'}`}>
-                        {w.userId?.status || 'active'}
+                      <span className={`badge ${w.status === 'frozen' ? 'badge-warning' : 'badge-success'}`}>
+                        {w.status || 'active'}
                       </span>
+                      {w.userId?.status === 'blocked' && (
+                        <span className="badge badge-danger" style={{ marginLeft: '0.35rem' }}>user blocked</span>
+                      )}
                     </td>
                     <td style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{formatDate(w.createdAt)}</td>
                   </tr>

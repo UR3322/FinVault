@@ -68,14 +68,19 @@ function ActionModal({ type, onClose, onSuccess }) {
 export default function Wallet() {
   const [wallet, setWallet] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [modal, setModal] = useState(null)
   const toast = useToast()
 
   const fetchWallet = () => {
     setLoading(true)
+    setLoadError(false)
     getWallet()
       .then(res => setWallet(res.data.wallet))
-      .catch(() => toast.error('Failed to load wallet'))
+      .catch(() => {
+        setLoadError(true)
+        toast.error('Failed to load wallet')
+      })
       .finally(() => setLoading(false))
   }
 
@@ -84,6 +89,20 @@ export default function Wallet() {
   const animatedBalance = useCountUp(wallet?.balance || 0, 1000)
 
   if (loading) return <LoadingSpinner />
+
+  if (loadError || !wallet) {
+    return (
+      <div className="page-wrapper">
+        <div className="page-header"><h1>My Wallet</h1></div>
+        <div className="card">
+          <div className="empty-state">
+            <p>Couldn't load your wallet. Please try again.</p>
+            <button className="btn btn-primary" onClick={fetchWallet} style={{ marginTop: '1rem' }}>Retry</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   const handleSuccess = () => { setModal(null); fetchWallet() }
 
